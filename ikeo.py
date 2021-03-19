@@ -18,7 +18,7 @@ except (InterfaceError, DatabaseError) as erreur:
     sys.exit()
 
 # afficher tous les produits ainsi que leurs sites de production
-requête = """SELECT `nom_p`, `descrip_p`, nom_u
+requete = """SELECT `nom_p`, `descrip_p`, nom_u
 FROM `produits`
 INNER JOIN produits_usines
     ON produits.id_p = produits_usines.produit_id
@@ -27,9 +27,12 @@ INNER JOIN usines
 WHERE 1"""
 try:
     # exécution requête
-    base.select_sql(base.connexion, requête)
+    base.select('produits', '1', 'nom_p', 'descrip_p')
+    ligne = base.curseur.fetchall()
+    for i in ligne:
+        print(i)
     # affichage
-    print(f"{requête} : requête réussie")
+    print(f"{requete} : requête réussie")
 except (InterfaceError, DatabaseError) as erreur:
     # on affiche l'erreur
     print(f"L'erreur suivante s'est produite : {erreur}")
