@@ -1,38 +1,15 @@
 import bdd
-import sys
-from mysql.connector import connect, DatabaseError, InterfaceError
+from tkinter import *
 
-USER = "root"
-PWD = "root"
-HOST = "localhost"
-PORT = 8081
-DATABASE = "ikeo"
+# On crée une fenêtre, racine de notre interface
+fenetre = Tk()
 
-# connexion d'un utilisateur inexistant
-try:
-    base = bdd.BDD(DATABASE, USER, PWD, HOST, PORT)
-except (InterfaceError, DatabaseError) as erreur:
-    # on affiche l'erreur
-    print(f"L'erreur suivante s'est produite : {erreur}")
-    # on quitte
-    sys.exit()
+base = bdd.BDD('ikeo', 'root', '', 'localhost')
 
 # afficher tous les produits ainsi que leurs sites de production
-requete = """SELECT `nom_p`, `descrip_p`, nom_u
-FROM `produits`
-INNER JOIN produits_usines
-    ON produits.id_p = produits_usines.produit_id
-INNER JOIN usines
-    ON produits_usines.usine_id = usines.id_u
-WHERE 1"""
-try:
-    # exécution requête
-    base.select('produits', '1', 'nom_p', 'descrip_p')
-    ligne = base.curseur.fetchall()
-    for i in ligne:
-        print(i)
-    # affichage
-    print(f"{requete} : requête réussie")
-except (InterfaceError, DatabaseError) as erreur:
-    # on affiche l'erreur
-    print(f"L'erreur suivante s'est produite : {erreur}")
+rep1 = base.select('produits', '')
+champ_label1 = Label(fenetre, text="Salut les Zér0s !")
+champ_label1.pack()
+
+# On démarre la boucle Tkinter qui s'interompt quand on ferme la fenêtre
+fenetre.mainloop()
