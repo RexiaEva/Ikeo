@@ -1,27 +1,18 @@
-import bdd
 from tkinter import *
+import bdd
 
 # On crée une fenêtre, racine de notre interface
 fenetre = Tk()
-
-base = bdd.BDD('ikeo', 'root', '', 'localhost')
+base = bdd.BDD('ikeo', 'root', 'root', 'localhost', 8081)
 
 # afficher tous les produits ainsi que leurs sites de production
-requete = """SELECT `nom_p`, `descrip_p`, nom_u
-FROM `produits`
-INNER JOIN produits_usines
-    ON produits.id_p = produits_usines.produit_id
-INNER JOIN usines
-    ON produits_usines.usine_id = usines.id_u
-WHERE 1"""
-try:
-    # exécution requête
-    Q1 = base.select('produits', '1', 'nom_p', 'descrip_p')
-    ligne = base.curseur.fetchall()
-    for i in ligne:
-        print(i)
-    # affichage
-    print(f"{requete} : requête réussie")
-except (InterfaceError, DatabaseError) as erreur:
-    # on affiche l'erreur
-    print(f"L'erreur suivante s'est produite : {erreur}") 
+rep1 = base.select('produits', '')
+
+# On crée un label (ligne de texte)
+champ_label = Label(fenetre, text="Salut les Zér0s !")
+
+# On affiche le label dans la fenêtre
+champ_label.pack()
+
+# On démarre la boucle Tkinter qui s'interompt quand on ferme la fenêtre
+fenetre.mainloop()
