@@ -5,12 +5,14 @@ import bdd
 fenetre = Tk()
 base = bdd.BDD('ikeo', 'root', 'root', 'localhost', 8081)
 
-# afficher tous les produits ainsi que leurs sites de production
-rep1 = base.select('produits', '')
-
 # On crée un label (ligne de texte)
-champ_label = Label(fenetre, text="Salut les Zér0s !")
-
+champ_label = Label(fenetre, text="Afficher tous les produits ainsi que leurs sites de production")
+# On affiche le label dans la fenêtre
+champ_label.pack()
+# afficher tous les produits ainsi que leurs sites de production
+rep1 = base.selects('produits, produits_usines, usines', 'produits.id_p = produits_usines.produit_id AND produits_usines.usine_id = usines.id_u', 'nom_p', 'descrip_p')
+# On crée un label (ligne de texte)
+champ_label = Label(fenetre, text=rep1)
 # On affiche le label dans la fenêtre
 champ_label.pack()
 

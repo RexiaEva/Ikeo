@@ -20,7 +20,7 @@ class BDD:
     def __repr__(self):
         """Quand on entre l'objet dans l'interpréteur"""
         return "Base : {}".format(self.nom)
-    def select(self, table, condition, *colonne):
+    def selectl(self, table, condition, *colonne):
         liste = list()
         col = ""
         for i, val in enumerate(colonne):
@@ -29,12 +29,27 @@ class BDD:
                 else:
                     col+=val
         requete = """SELECT {} FROM {} WHERE {}""".format(col, table, condition)
-        print("requète =", requete)
+        print("requète =", requete, ";")
         self.curseur.execute(requete)
         lignes = self.curseur.fetchall()
         for ligne in lignes:
             liste.append(ligne)
         return liste
+    def selects(self, table, condition, *colonne):
+        chaine = ""
+        col = ""
+        for i, val in enumerate(colonne):
+                if i < len(colonne)-1:
+                    col+=(val + ", ")
+                else:
+                    col+=val
+        requete = """SELECT {} FROM {} WHERE {}""".format(col, table, condition)
+        print("requète =", requete, ";")
+        self.curseur.execute(requete)
+        lignes = self.curseur.fetchall()
+        for ligne in lignes:
+            chaine += str(ligne) + "\n"
+        return chaine
     def update(self, table, condition, **donnees):
         """mettre à jour une ou des lignes"""
         try:
