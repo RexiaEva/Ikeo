@@ -48,7 +48,9 @@ class BDD:
         self.curseur.execute(requete)
         lignes = self.curseur.fetchall()
         for ligne in lignes:
-            chaine += str(ligne) + "\n"
+            for mot in ligne:
+            	chaine += str(mot) + '    '
+            chaine += "\n"
         return chaine
     def update(self, table, condition, **donnees):
         """mettre à jour une ou des lignes"""
