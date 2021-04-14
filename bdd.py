@@ -35,11 +35,13 @@ class BDD:
         for ligne in lignes:
             liste.append(ligne)
         return liste
-    def selects(self, table, condition, *colonne):
+    def selects(self, table, condition, *colonnes):
+        liste = list()
+        longueurs = dict()
         chaine = ""
         col = ""
-        for i, val in enumerate(colonne):
-                if i < len(colonne)-1:
+        for i, val in enumerate(colonnes):
+                if i < len(colonnes)-1:
                     col+=(val + ", ")
                 else:
                     col+=val
@@ -47,11 +49,40 @@ class BDD:
         print("requète =", requete, ";")
         self.curseur.execute(requete)
         lignes = self.curseur.fetchall()
+        for colonne in colonnes:
+        	longueurs[colonne] = len(colonne)
         for ligne in lignes:
-            for mot in ligne:
-            	chaine += str(mot) + '    '
-            chaine += "\n"
+        	i = 0
+            print("ligne =", ligne, ";")
+            for colonne in colonnes:
+        		if(longueurs[colonne] < len(mot)):
+        			longueurs[colonne] = len(mot)
+                i += 1
+                mot = ligne[i]
+        	liste.append(ligne)
+        for colonne in colonnes:
+        	chaine += '|' + (longueurs[colonne]*'-')
+        chaine += '|\n'
+        for colonne in colonnes:
+        	chaine += '|' + colonne.center(longueurs[colonne]+2)
+        chaine += '|\n'
+        for colonne in colonnes:
+        	chaine += '|' + (longueurs[colonne]*'-')
+        chaine += '|\n'
+        for ligne in liste:
+            i = 0
+            mot = ligne[i]
+        	for colonne, mot in colonnes, ligne:
+        		chaine += '|' + mot.center(longueurs[colonne]+2)
+                i += 1
+                mot = ligne[i]
+        	chaine += '|\n'
+        for colonne in colonnes:
+        	chaine += '|' + (longueurs[colonne]*'-')
+        chaine += '|\n'
+        
         return chaine
+
     def update(self, table, condition, **donnees):
         """mettre à jour une ou des lignes"""
         try:
